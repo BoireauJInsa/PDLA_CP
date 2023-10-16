@@ -13,8 +13,7 @@ public class DBInterface {
     public  DBInterface () {
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" +
-                    "user=minty&password=greatsqldb");
+            conn = DriverManager.getConnection("jdbc:mysql://srv-bdens.insa-toulouse.fr:3306/projet_gei_023", "projet_gei_023" ,"voag5Noo");
 
             // Do something with the Connection
         } catch (SQLException ex) {
@@ -30,7 +29,6 @@ public class DBInterface {
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(Query);
-
         }
         catch (SQLException ex){
             // handle any errors
@@ -38,21 +36,6 @@ public class DBInterface {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
-        finally {
-            // it is a good idea to release
-            // resources in a finally{} block
-            // in reverse-order of their creation
-            // if they are no-longer needed
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) { } // ignore
-
-                stmt = null;
-            }
-        }
-
         return rs;
     }
 
