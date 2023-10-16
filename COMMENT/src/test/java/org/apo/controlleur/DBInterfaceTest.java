@@ -1,6 +1,8 @@
 package org.apo.controlleur;
 
 import org.junit.jupiter.api.Test;
+
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -28,5 +30,14 @@ class DBInterfaceTest {
             throw new RuntimeException(e);
         }
         assertEquals(expected, value);
+    }
+
+    @Test
+    void TestUpdate() {
+        DBInterface MyDB = new DBInterface();
+        MyDB.Update("UPDATE Test SET Statut = \"valideur\" Where ID = 3;");
+        TestReadGen("SELECT * FROM Test WHERE ID = 3;", "valideur" , "Statut");
+        MyDB.Update("UPDATE Test SET Statut = \"admin\" Where ID = 3;");
+        TestReadGen("SELECT * FROM Test WHERE ID = 3;", "admin" , "Statut");
     }
 }

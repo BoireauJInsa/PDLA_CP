@@ -39,4 +39,17 @@ public class DBInterface {
         return rs;
     }
 
+    public void Update (String Query) {
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(Query);
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+    }
+
 }
