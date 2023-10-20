@@ -17,6 +17,13 @@ public class Demande {
         this.Message = Message;
     }
 
+    public void ChangerStatut(int ID_Verifieur, String Statut) throws ErrorNoPerms{
+        if (ID_Verifieur != this.ID_Verifieur) {
+            throw (new ErrorNoPerms("ID Invalide -> ChangerStatut"));
+        }
+        this.Statut = Statut;
+    }
+
     @Override
     public String toString() {
         return "Demande{" +

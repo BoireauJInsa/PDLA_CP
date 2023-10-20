@@ -1,16 +1,17 @@
-package org.apo.vue;
+package org.apo.controlleur;
 
-import org.apo.model.Demande;
 import org.junit.jupiter.api.Test;
 
-import java.awt.geom.Dimension2D;
+import org.apo.model.Demande;
+
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.apo.controlleur.DebugTab.PrintTab;
 
-class PrintTabToTermTest {
+class DebugTabTest {
+
     @Test
-    void testPrint() {
+    void PrintToTermTest() {
         Demande D1 = new Demande(1, 2, 3, 3, "texte statut","texte ");
         Demande D2 = new Demande(1, 2, 3, 3, "texte statut","texte ");
         Demande D3 = new Demande(1, 2, 3, 3, "texte statut","texte ");

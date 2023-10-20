@@ -1,6 +1,4 @@
 package org.apo.model;
-
-
 import org.apo.controlleur.DBInterface;
 
 import java.sql.ResultSet;
@@ -14,12 +12,17 @@ public class Aideur extends User {
     }
 
     @Override
-    public HashMap<Integer, Demande> recuperer_tableau() {
-        HashMap<Integer, Demande> DB_Map = new HashMap<Integer, Demande>(); //Create your hashmap
+    public HashMap<Integer, Demande> recuperer_demandes_abstract() {
+        return recuperer_demandes("SELECT * FROM Demandes WHERE Statut = accepté;");
+    }
 
-        DBInterface myDB = new DBInterface ();
+    @Override
+    public HashMap recuperer_profil() {
+        HashMap<Integer, Demande> DB_Map = new HashMap<Integer, Demande>();
+
+        DBInterface myDB = new DBInterface();
         ResultSet rs;
-        rs = myDB.Read("SELECT * FROM Demandes WHERE Statut = accepté;");
+        rs = myDB.Read("");
 
         try {
             while (rs.next()) {
@@ -35,7 +38,7 @@ public class Aideur extends User {
                 //Store to Map the key and the value
                 DB_Map.put(ID, My_Demande);
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());

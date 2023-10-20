@@ -1,26 +1,30 @@
 package org.apo.model;
-import java.util.HashMap;
-
-
 import org.apo.controlleur.DBInterface;
-import org.apo.controlleur.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class Demandeur extends User {
 
-    public Demandeur(int UID) {
+    int UID_Valideur;
+    public Demandeur(int UID, int UID_Valideur) {
         super(UID);
+        this.UID_Valideur = UID_Valideur;
     }
 
     @Override
-    public HashMap<Integer, Demande> recuperer_tableau() {
+    public HashMap<Integer, Demande> recuperer_demandes_abstract() {
+        return recuperer_demandes("SELECT * FROM Demandes WHERE ID_Demandeur = " + this.UID + " ;");
+    }
+
+    @Override
+    public HashMap recuperer_profil() {
         HashMap<Integer, Demande> DB_Map = new HashMap<Integer, Demande>();
 
-        DBInterface myDB = new DBInterface ();
+        DBInterface myDB = new DBInterface();
         ResultSet rs;
-        rs = myDB.Read("SELECT * FROM Demandes WHERE ID_Demandeur = " + this.UID + " ;");
+        rs = myDB.Read("");
 
         try {
             while (rs.next()) {
@@ -36,7 +40,7 @@ public class Demandeur extends User {
                 //Store to Map the key and the value
                 DB_Map.put(ID, My_Demande);
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
