@@ -28,4 +28,4 @@ public class Valideur extends User {
         myDB.Close();
     }
 }
-}
+
