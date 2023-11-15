@@ -1,8 +1,6 @@
 package org.apo.model;
 import org.apo.controlleur.DBInterface;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 public class Demandeur extends User {
@@ -19,33 +17,17 @@ public class Demandeur extends User {
     }
 
     @Override
-    public HashMap recuperer_profil() {
-        HashMap<Integer, Demande> DB_Map = new HashMap<Integer, Demande>();
+    public void RegisterUser(String login, String mdp) {
+        DBInterface myDB = new DBInterface ();
+        String queryPersonne ="INSERT INTO Personnes (Login, Pass, Statut) VALUES ( \"%s\",  \"%s\" , \"Demandeur\" );".formatted(login, mdp);
+        myDB.Update(queryPersonne);
 
-        DBInterface myDB = new DBInterface();
-        ResultSet rs;
-        rs = myDB.Read("");
+        String queryID = "SELECT * FROM Personnes WHERE Login = %s AND ;".formatted(login);
+        this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
-        try {
-            while (rs.next()) {
-                int ID = rs.getInt("ID");
-                int ID_Demandeur = rs.getInt("ID_Demandeur");
-                int ID_Valideur = rs.getInt("ID_Valideur");
-                int ID_Aideur = rs.getInt("ID_Aideur");
-                String Statut = rs.getString("Statut");
-                String Message = rs.getString("Message");
+        String queryUser = "INSERT INTO Demandeur (ID, ID_Valideur) VALUES ( \"%s\",  \"%s\" );".formatted(this.UID, this.UID_Valideur);
+        myDB.Update(queryUser);
 
-                Demande My_Demande = new Demande(ID, ID_Demandeur, ID_Valideur, ID_Aideur, Statut, Message);
-
-                //Store to Map the key and the value
-                DB_Map.put(ID, My_Demande);
-            }
-        } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        return DB_Map;
+        myDB.Close();
     }
 }

@@ -12,7 +12,7 @@ public abstract class User {
         this.UID = UID;
     }
 
-    public HashMap recuperer_demandes(String Query) {
+    public HashMap<Integer, Demande> recuperer_demandes(String Query) {
         HashMap<Integer, Demande> DB_Map = new HashMap<Integer, Demande>();
 
         DBInterface myDB = new DBInterface ();
@@ -39,11 +39,11 @@ public abstract class User {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
+        myDB.Close();
         return DB_Map;
     }
-    public abstract HashMap recuperer_demandes_abstract();
-
-    public abstract HashMap recuperer_profil();
+    public abstract HashMap<Integer, Demande> recuperer_demandes_abstract();
+    public abstract void RegisterUser(String login, String mdp);
 
     //public abstract void afficher_profil();
 }

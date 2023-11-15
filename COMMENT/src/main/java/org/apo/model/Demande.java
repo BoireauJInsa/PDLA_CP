@@ -23,6 +23,7 @@ public class Demande {
         }
         this.Statut = Statut;
     }
+    public void UpdateDemande(){};
 
     @Override
     public String toString() {

@@ -1,31 +1,31 @@
 package org.apo.model;
 import org.apo.controlleur.DBInterface;
-
 import java.util.HashMap;
 
-public class Aideur extends User {
+public class Valideur extends User {
 
-    public Aideur(int UID) {
+    public Valideur(int UID) {
         super(UID);
     }
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demandes WHERE Statut = accepté;");
+        return recuperer_demandes("SELECT * FROM Demandes WHERE ID_Valideur = " + this.UID + " ;");
     }
 
     @Override
     public void RegisterUser(String login, String mdp) {
         DBInterface myDB = new DBInterface ();
-        String queryPersonne ="INSERT INTO Personnes (Login, Pass, Statut) VALUES ( \"%s\",  \"%s\" , \"Aideur\" );".formatted(login, mdp);
+        String queryPersonne ="INSERT INTO Personnes (Login, Pass, Statut) VALUES ( \"%s\",  \"%s\" , \"Valideur\" );".formatted(login, mdp);
         myDB.Update(queryPersonne);
 
         String queryID = "SELECT * FROM Personnes WHERE Login = %s AND ;".formatted(login);
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
-        String queryUser = "INSERT INTO Aideur (ID) VALUES ( \"%s\" );".formatted(this.UID);
+        String queryUser = "INSERT INTO Valideur (ID) VALUES ( \"%s\" );".formatted(this.UID);
         myDB.Update(queryUser);
 
         myDB.Close();
     }
+}
 }
