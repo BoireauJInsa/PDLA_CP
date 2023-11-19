@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 
 public class LoginPanel extends JPanel {
 
+    private boolean fini = false;
+    private String login;
+    private String password;
+
     public LoginPanel(FrameView frameView, int width, int height) {
 
         this.setLayout(null);
@@ -49,6 +53,9 @@ public class LoginPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                login = loginTextField.getText();
+                password = new String(passwordField.getPassword());
+                fini=true;
             }
         });
         this.add(submitButton);
@@ -69,4 +76,19 @@ public class LoginPanel extends JPanel {
         this.setVisible(false);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public boolean isFini() {
+        return fini;
+    }
+
+    public void Recommencer (){
+        fini=false;
+    }
 }

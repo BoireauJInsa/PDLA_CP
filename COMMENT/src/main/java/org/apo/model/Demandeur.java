@@ -22,7 +22,7 @@ public class Demandeur extends User {
         String queryPersonne ="INSERT INTO Personnes (Login, Pass, Statut) VALUES ( \"%s\",  \"%s\" , \"Demandeur\" );".formatted(login, mdp);
         myDB.Update(queryPersonne);
 
-        String queryID = "SELECT * FROM Personnes WHERE Login = %s AND ;".formatted(login);
+        String queryID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
         String queryUser = "INSERT INTO Demandeur (ID, ID_Valideur) VALUES ( \"%s\",  \"%s\" );".formatted(this.UID, this.UID_Valideur);

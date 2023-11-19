@@ -5,35 +5,39 @@ import org.apo.model.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Login {
+public class LoginController {
     public static User ConnexionAvecID(int ID) {
 
         DBInterface myDB = new DBInterface ();
         String query = "SELECT * FROM Personnes WHERE ID = " + ID + " ;";
         String  typeUser = myDB.ReadSingle(query, "Statut");
+        myDB.Close();
 
         switch (typeUser) {
             case "valideur":
                 return new Valideur(ID);
+
             case "demandeur":
+                myDB = new DBInterface ();
                 query = "SELECT * FROM Demandeur WHERE ID = " + ID + " ;";
                 String IDString = myDB.ReadSingle(query, "ID_Valideur");
                 return new Demandeur(ID, Integer.parseInt(IDString));
+
             default:
                 return new Aideur(ID);
         }
     }
 
-    public static User RegisterUser(String login, String mdp, int typeUser, int IDval) {
+    public static User RegisterUser(String login, String mdp, String  typeUser, int IDval) {
         User newUser = null;
         switch (typeUser) {
-            case 1: //valideur
+            case "Valideur":
                 newUser = new Valideur(-1);
                 newUser.RegisterUser(login, mdp);
-            case 2: // demandeur
+            case "Demandeur":
                 newUser = new Demandeur(-1, IDval);
                 newUser.RegisterUser(login, mdp);
-            default: // aideur
+            default: // Aideur
                 newUser = new Valideur(-1);
                 newUser.RegisterUser(login, mdp);
         }
@@ -42,7 +46,7 @@ public class Login {
 
     public static User ConnexionAvecLogin(String login, String mdp) throws SQLException{
         DBInterface myDB = new DBInterface ();
-        String queyID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted(login,mdp);;
+        String queyID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
 
         int ID = Integer.parseInt (myDB.ReadSingleThrow(queyID, "ID"));
 

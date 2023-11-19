@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class RegistrationPanel extends JPanel{
 
-    private int mode = -1;
+    private int mode = 0;
 
     public RegistrationPanel(FrameView frameView) {
 
@@ -19,7 +19,7 @@ public class RegistrationPanel extends JPanel{
         signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setMode(0);
+                setMode(1);
                 setVisible(false);
                 frameView.getSignupPanel().setVisible(true);
             }
@@ -33,7 +33,7 @@ public class RegistrationPanel extends JPanel{
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setMode(1);
+                setMode(2);
                 setVisible(false);
                 frameView.getLoginPanel().setVisible(true);
             }

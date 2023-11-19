@@ -19,7 +19,7 @@ public class Valideur extends User {
         String queryPersonne ="INSERT INTO Personnes (Login, Pass, Statut) VALUES ( \"%s\",  \"%s\" , \"Valideur\" );".formatted(login, mdp);
         myDB.Update(queryPersonne);
 
-        String queryID = "SELECT * FROM Personnes WHERE Login = %s AND ;".formatted(login);
+        String queryID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
         String queryUser = "INSERT INTO Valideur (ID) VALUES ( \"%s\" );".formatted(this.UID);

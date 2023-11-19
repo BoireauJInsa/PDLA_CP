@@ -7,6 +7,12 @@ import java.util.Objects;
 
 public class SignupPanel extends JPanel {
 
+    private boolean fini = false;
+    private String login;
+    private String password;
+    private int hospital = 0;
+    private String role;
+
     public SignupPanel(FrameView frameView, int width, int height) {
 
         this.setLayout(null);
@@ -98,7 +104,22 @@ public class SignupPanel extends JPanel {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                login = loginTextField.getText();
+                password = new String(passwordField.getPassword());
 
+                role = (String) roleComboBox.getSelectedItem();
+
+                if (Objects.equals(role, "Demandeur")) {
+                    hospital = Integer.parseInt(hospitalTextField.getText());
+                }
+
+                String passwordConfirm = new String(passwordConfirmField.getPassword());
+
+                if (Objects.equals(password, passwordConfirm)){
+                    fini=true;
+                }else {
+                    System.out.println("Veuiller ressaisir un mot de passe");
+                }
             }
         });
         this.add(submitButton);
@@ -117,5 +138,25 @@ public class SignupPanel extends JPanel {
         this.add(cancelButton);
 
         this.setVisible(false);
+    }
+
+    public int getHospital() {
+        return hospital;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public boolean isFini() {
+        return fini;
     }
 }

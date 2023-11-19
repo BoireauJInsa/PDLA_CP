@@ -45,5 +45,7 @@ public abstract class User {
     public abstract HashMap<Integer, Demande> recuperer_demandes_abstract();
     public abstract void RegisterUser(String login, String mdp);
 
-    //public abstract void afficher_profil();
+    public int getUID() {
+        return UID;
+    }
 }

@@ -12,11 +12,14 @@ public class ConnexionControlleurTest {
     @Test
     void TestConnexion () {
         ConnexionControlleur controlleur = new ConnexionControlleur();
+        User  premier = controlleur.InfoConnexion();
+        System.out.println(premier.getClass() + " " +premier.getUID());
 
-        User real = controlleur.InfoConnexion();
+        controlleur = new ConnexionControlleur();
+        User  deuxieme = controlleur.InfoConnexion();
+        System.out.println(deuxieme.getClass() + " " +deuxieme.getUID());
 
-        User expected = new Aideur(1);
-        assertEquals(expected.toString(), real.toString());
+        assertEquals(deuxieme.getUID(),premier.getUID());
     }
 
 

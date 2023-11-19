@@ -24,12 +24,13 @@ public class DBInterface {
         }
     }
 
+// Quand utiliser il faut penser à close STMT
     public ResultSet Read (String Query) {
         ResultSet rs = null;
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(Query);
-            stmt.close();
+
         }
         catch (SQLException ex){
             // handle any errors
@@ -47,6 +48,8 @@ public class DBInterface {
             while (rs.next()) {
                 result = rs.getString(Query2);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException ex){
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -64,6 +67,8 @@ public class DBInterface {
         while (rs.next()) {
             result = rs.getString(Query2);
         }
+        rs.close();
+        stmt.close();
 
         return result;
     }
@@ -81,6 +86,16 @@ public class DBInterface {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
     }
+    public void CloseStatement (){
+        try {
+            stmt.close();
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+    }
+
 
     public void Close () {
         try {

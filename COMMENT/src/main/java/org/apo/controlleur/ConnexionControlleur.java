@@ -1,22 +1,35 @@
 package org.apo.controlleur;
 
-import org.apo.vue.Vue_Connection;
+import org.apo.vue.*;
 import org.apo.model.User;
 
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 public class ConnexionControlleur {
 
     Vue_Connection visuel;
     User nous;
+    FrameView vue;
 
     ConnexionControlleur(){
-        visuel= new Vue_Connection(1);
 
-        if (visuel.Selection()==1){
-           Connexion();
-        }else{
+        vue = new FrameView();
+
+        RegistrationPanel registeVue = vue.getRegistrationPanel();
+
+        while (registeVue.getMode()==0){
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (registeVue.getMode()==1){
             Creation();
+        }else{
+            Connexion();
         }
     }
 
@@ -25,20 +38,32 @@ public class ConnexionControlleur {
         String login = "";
         String mdp = "";
 
+        LoginPanel connexionVue = vue.getLoginPanel();
+
         while (connexion){
 
-            try {
-                visuel.PriseInfoCo();
-                login=visuel.login;
-                mdp=visuel.motDePasse;
+            while (!connexionVue.isFini()){
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
-                nous = Login.ConnexionAvecLogin(login,mdp);
+            login = connexionVue.getLogin();
+            mdp = connexionVue.getPassword();
+
+            try {
+
+                nous = LoginController.ConnexionAvecLogin(login,mdp);
 
                 connexion=false;
             }catch (SQLException ex){
                 System.out.println("Problème de connexion :");
                 System.out.println("|  Mauvais login: " + login);
                 System.out.println("|  Mauvais mot de passe: " + mdp);
+                System.out.println("Veuiller recommencer");
+                connexionVue.Recommencer();
             }
 
 
@@ -47,8 +72,19 @@ public class ConnexionControlleur {
     }
 
     private void Creation (){
-        visuel.PriseInfoCr();
-        nous = Login.RegisterUser(visuel.login,visuel.motDePasse,visuel.type,visuel.idSupp);
+
+        SignupPanel creationVue = vue.getSignupPanel();
+
+        while (!creationVue.isFini()){
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        nous = LoginController.RegisterUser(creationVue.getLogin(), creationVue.getPassword(), creationVue.getRole(), creationVue.getHospital());
+
     }
 
     public User InfoConnexion () {
