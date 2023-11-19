@@ -12,6 +12,7 @@ public class FrameView extends JFrame{
     private final RegistrationPanel registrationPanel;
     private final SignupPanel signupPanel;
     private final LoginPanel loginPanel;
+    private final RequestPanel requestPanel;
 
     public FrameView() {
 
@@ -30,6 +31,7 @@ public class FrameView extends JFrame{
                 registrationPanel.setBounds(0, 0, width, height);
                 signupPanel.setBounds(0, 0, width, height);
                 loginPanel.setBounds(0, 0, width, height);
+                requestPanel.setBounds(0, 0, width, height);
             }
         });
 
@@ -37,13 +39,17 @@ public class FrameView extends JFrame{
         this.getContentPane().add(registrationPanel);
         registrationPanel.setVisible(true);
 
-        signupPanel = new SignupPanel(this, width, height);
+        signupPanel = new SignupPanel(this);
         this.getContentPane().add(signupPanel);
         signupPanel.setVisible(false);
 
-        loginPanel = new LoginPanel(this, width, height);
+        loginPanel = new LoginPanel(this);
         this.getContentPane().add(loginPanel);
         loginPanel.setVisible(false);
+
+        requestPanel = new RequestPanel(this);
+        this.getContentPane().add(requestPanel);
+        requestPanel.setVisible(false);
 
         this.setVisible(true);
     }
@@ -66,6 +72,10 @@ public class FrameView extends JFrame{
 
     public LoginPanel getLoginPanel() {
         return loginPanel;
+    }
+
+    public RequestPanel getRequestPanel() {
+        return requestPanel;
     }
 
     public static void main(String[] args) {

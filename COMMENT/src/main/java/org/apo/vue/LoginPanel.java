@@ -10,45 +10,45 @@ public class LoginPanel extends JPanel {
     private String login;
     private String password;
 
-    public LoginPanel(FrameView frameView, int width, int height) {
+    public LoginPanel(FrameView frameView) {
 
         this.setLayout(null);
 
         JLabel logInLabel = new JLabel("Log in");
         logInLabel.setHorizontalAlignment(JLabel.CENTER);
-        logInLabel.setSize(width/10, height/20);
-        logInLabel.setBounds(width/2 - logInLabel.getWidth()/2, 50, logInLabel.getWidth(), logInLabel.getHeight());
+        logInLabel.setSize(frameView.getWidth()/10, frameView.getHeight()/20);
+        logInLabel.setBounds(frameView.getWidth()/2 - logInLabel.getWidth()/2, 50, logInLabel.getWidth(), logInLabel.getHeight());
         logInLabel.setVisible(true);
         this.add(logInLabel);
 
         JLabel loginLabel = new JLabel("Login : ");
         loginLabel.setHorizontalAlignment(JLabel.CENTER);
-        loginLabel.setSize(width/3, height/15);
+        loginLabel.setSize(frameView.getWidth()/3, frameView.getHeight()/15);
         loginLabel.setBounds(0, logInLabel.getY() + 80, loginLabel.getWidth(), loginLabel.getHeight());
         this.add(loginLabel);
 
         JTextField loginTextField = new JTextField();
-        loginTextField.setSize(width/3, height/15);
-        loginTextField.setBounds(width/3, logInLabel.getY() + 80, loginTextField.getWidth(), loginTextField.getHeight());
+        loginTextField.setSize(frameView.getWidth()/3, frameView.getHeight()/15);
+        loginTextField.setBounds(frameView.getWidth()/3, logInLabel.getY() + 80, loginTextField.getWidth(), loginTextField.getHeight());
         loginTextField.setVisible(true);
         this.add(loginTextField);
 
         JLabel passwordLabel = new JLabel("Password : ");
         passwordLabel.setHorizontalAlignment(JLabel.CENTER);
-        passwordLabel.setSize(width/3, height/15);
+        passwordLabel.setSize(frameView.getWidth()/3, frameView.getHeight()/15);
         passwordLabel.setBounds(0, loginLabel.getY() + 50, passwordLabel.getWidth(), passwordLabel.getHeight());
         this.add(passwordLabel);
 
         JPasswordField passwordField = new JPasswordField();
-        passwordField.setSize(width/3, height/15);
-        passwordField.setBounds(width/3, loginLabel.getY() + 50, passwordField.getWidth(), passwordField.getHeight());
+        passwordField.setSize(frameView.getWidth()/3, frameView.getHeight()/15);
+        passwordField.setBounds(frameView.getWidth()/3, loginLabel.getY() + 50, passwordField.getWidth(), passwordField.getHeight());
         passwordField.setVisible(true);
         this.add(passwordField);
 
         JButton submitButton = new JButton("Submit");
         submitButton.setFocusable(false);
-        submitButton.setSize(width/5, height/15);
-        submitButton.setBounds(width/2 + (width/4 - width/5), passwordLabel.getY() + 100, submitButton.getWidth(), submitButton.getHeight());
+        submitButton.setSize(frameView.getWidth()/5, frameView.getHeight()/15);
+        submitButton.setBounds(frameView.getWidth()/2 + (frameView.getWidth()/4 - frameView.getWidth()/5), passwordLabel.getY() + 100, submitButton.getWidth(), submitButton.getHeight());
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,8 +62,8 @@ public class LoginPanel extends JPanel {
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.setFocusable(false);
-        cancelButton.setSize(width/5, height/15);
-        cancelButton.setBounds(width/4, passwordLabel.getY() + 100, cancelButton.getWidth(), cancelButton.getHeight());
+        cancelButton.setSize(frameView.getWidth()/5, frameView.getHeight()/15);
+        cancelButton.setBounds(frameView.getWidth()/4, passwordLabel.getY() + 100, cancelButton.getWidth(), cancelButton.getHeight());
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
