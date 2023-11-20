@@ -9,7 +9,7 @@ public class LoginController {
     public static User ConnexionAvecID(int ID) {
 
         DBInterface myDB = new DBInterface ();
-        String query = "SELECT * FROM Personnes WHERE ID = " + ID + " ;";
+        String query = "SELECT * FROM Personnes WHERE ID = %d ;".formatted(ID);
         String  typeUser = myDB.ReadSingle(query, "Statut");
         myDB.Close();
 
@@ -19,7 +19,7 @@ public class LoginController {
 
             case "demandeur":
                 myDB = new DBInterface ();
-                query = "SELECT * FROM Demandeur WHERE ID = " + ID + " ;";
+                query = "SELECT * FROM Demandeur WHERE ID = %d ;".formatted(ID);
                 String IDString = myDB.ReadSingle(query, "ID_Valideur");
                 return new Demandeur(ID, Integer.parseInt(IDString));
 

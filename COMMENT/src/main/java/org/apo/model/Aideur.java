@@ -16,6 +16,11 @@ public class Aideur extends User {
 
     @Override
     public void RegisterUser(String login, String mdp) {
+
+        super.login=login;
+        super.motDePass=mdp;
+        super.Status="Aideur";
+
         DBInterface myDB = new DBInterface ();
         String queryPersonne ="INSERT INTO Personnes (Login, Pass, Statut) VALUES ( \"%s\",  \"%s\" , \"Aideur\" );".formatted(login, mdp);
         myDB.Update(queryPersonne);
@@ -27,5 +32,15 @@ public class Aideur extends User {
         myDB.Update(queryUser);
 
         myDB.Close();
+    }
+
+    @Override
+    public String toString() {
+        return "Aideur{" +
+                "ID=" + super.getUID() +
+                ", Login=" + super.getLogin() +
+                ", Mot de pass=" + super.getMotDePass() +
+                ", Statut='" +  super.getStatus() + '\'' +
+                '}';
     }
 }

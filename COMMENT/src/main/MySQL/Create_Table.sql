@@ -51,10 +51,9 @@ CREATE TABLE Aideur (
 CREATE TABLE Demande (
 	ID INT NOT NULL AUTO_INCREMENT,
     ID_Demandeur INT NOT NULL,
-    ID_Valideur INT,
     ID_Aideur INT,
     Message VARCHAR(250) NOT NULL,
-    Statut ENUM ("attente", "accepté", "terminé") NOT NULL,
+    Statut ENUM ('attente', 'accepté','refusé','terminé') NOT NULL,
 	CONSTRAINT pk_Demande  PRIMARY KEY(ID))
     ENGINE=InnoDB;
 

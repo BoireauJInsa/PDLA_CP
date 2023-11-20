@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 public abstract class User {
     int UID;
+    String login;
+    String motDePass;
+    String Status;
+
     public User(int UID) {
         this.UID = UID;
     }
@@ -21,17 +25,12 @@ public abstract class User {
 
         try {
             while (rs.next()) {
-                int ID = rs.getInt("ID");
-                int ID_Demandeur = rs.getInt("ID_Demandeur");
-                int ID_Valideur = rs.getInt("ID_Valideur");
-                int ID_Aideur = rs.getInt("ID_Aideur");
-                String Statut = rs.getString("Statut");
-                String Message = rs.getString("Message");
+                int ID_demande = rs.getInt("ID");
 
-                Demande My_Demande = new Demande(ID, ID_Demandeur, ID_Valideur, ID_Aideur, Statut, Message);
+                Demande My_Demande = new Demande(ID_demande);
 
                 //Store to Map the key and the value
-                DB_Map.put(ID, My_Demande);
+                DB_Map.put(ID_demande, My_Demande);
             }
         } catch (SQLException ex){
             // handle any errors
@@ -39,6 +38,7 @@ public abstract class User {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
+        myDB.CloseStatement();
         myDB.Close();
         return DB_Map;
     }
@@ -48,4 +48,18 @@ public abstract class User {
     public int getUID() {
         return UID;
     }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getMotDePass() {
+        return motDePass;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public abstract String toString ();
 }
