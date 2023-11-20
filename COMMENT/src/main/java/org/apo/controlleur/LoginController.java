@@ -34,11 +34,13 @@ public class LoginController {
             case "Valideur":
                 newUser = new Valideur(-1);
                 newUser.RegisterUser(login, mdp);
+                break;
             case "Demandeur":
                 newUser = new Demandeur(-1, IDval);
                 newUser.RegisterUser(login, mdp);
+                break;
             default: // Aideur
-                newUser = new Valideur(-1);
+                newUser = new Aideur(-1);
                 newUser.RegisterUser(login, mdp);
         }
         return newUser;
@@ -53,5 +55,33 @@ public class LoginController {
 
         myDB.Close();
         return ConnexionAvecID(ID);
+    }
+
+    public static boolean Existe (String aVerifier, String collone, String table){
+        DBInterface myDB = new DBInterface();
+        String queryLogin = "SELECT Login FROM %s".formatted(table);
+
+        ResultSet rs = myDB.Read(queryLogin);
+        boolean sortie = false;
+
+        try {
+            while (rs.next()) {
+                String verifieur = rs.getString(collone);
+
+                if (aVerifier==verifieur){
+                    sortie=true;
+                }
+            }
+        } catch (SQLException ex){
+            // handle any errors
+            sortie=false;
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        myDB.CloseStatement();
+        myDB.Close();
+        return sortie;
     }
 }
