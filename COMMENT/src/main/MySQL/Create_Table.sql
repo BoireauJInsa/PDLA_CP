@@ -52,6 +52,7 @@ CREATE TABLE Demande (
 	ID INT NOT NULL AUTO_INCREMENT,
     ID_Demandeur INT NOT NULL,
     ID_Aideur INT,
+    ID_Valideur INT NOT NULL,
     Message VARCHAR(250) NOT NULL,
     Statut ENUM ('attente', 'accepté','refusé','terminé') NOT NULL,
 	CONSTRAINT pk_Demande  PRIMARY KEY(ID))

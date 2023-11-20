@@ -7,8 +7,9 @@ import java.sql.SQLException;
 
 public class Demande {
     int ID;
-    Demandeur demandeur;
-    Aideur aider;
+    int ID_demandeur;
+    int ID_Aideur;
+    int ID_Valideur;
     String statut;
     String message;
 
@@ -19,17 +20,12 @@ public class Demande {
 
         try {
             while (rs.next()) {
-                int ID_demandeur = rs.getInt("ID_Demandeur");
-                int ID_Aideur = rs.getInt("ID_Aideur");
+                ID_demandeur = rs.getInt("ID_Demandeur");
+                ID_Aideur = rs.getInt("ID_Aideur");
+                ID_Valideur = rs.getInt("ID_Valideur");
                 message = rs.getString("Message");
                 statut = rs.getString("Statu");
 
-                if (ID_Aideur==0){
-                    aider=null;
-                }else {
-                    aider = null ; ///new Aideur(ID_Aideur);   ////// ATTTENTION C4EST A GERER
-                }
-                demandeur=null; ///new Demandeur(ID_demandeur);
             }
             rs.close();
         } catch (SQLException ex){
@@ -44,12 +40,13 @@ public class Demande {
 
     }
 
-    public Demande(int ID, Demandeur demandeur, Aideur aider, String Statut, String Message) {
+    public Demande(int ID, int ID_demandeur, int ID_Valideur, int ID_Aideur, String statut, String message) {
         this.ID = ID;
-        this.demandeur = demandeur;
-        this.aider = aider;
-        this.statut = Statut;
-        this.message = Message;
+        this.ID_demandeur = ID_demandeur;
+        this.ID_Aideur = ID_Aideur;
+        this.ID_Valideur = ID_Valideur;
+        this.statut = statut;
+        this.message = message;
     }
 
     public void RegisterDemande (int ID_Demandeur, String Message) {
@@ -59,12 +56,11 @@ public class Demande {
 
     }
 
-    public void ValiderRefuseDemande(int ID_Verifieur, String statut) throws ErrorNoPerms{
-        if (ID_Verifieur != this.demandeur.getUIDValideur()) {
+    public void ValiderRefuseDemande(int ID_Valideur, String statut) throws ErrorNoPerms{
+        if (ID_Valideur != this.ID_Valideur) {
             throw (new ErrorNoPerms("ID Invalide -> ChangerStatut"));
-        } else if (this.statut=="terminé") {
+        } else if (this.statut!="terminé") {
 
-        }else {
             this.statut = statut;
 
             DBInterface myDB = new DBInterface();
@@ -78,22 +74,15 @@ public class Demande {
     @Override
     public String toString() {
 
-        if (aider==null){
-            return "Demande{" +
-                    "ID=" + ID +
-                    ", ID_Demandeur=" + demandeur.toString() +
-                    ", Statut='" + statut + '\'' +
-                    ", Message='" + message + '\'' +
-                    '}';
-        }else{
-            return "Demande{" +
-                    "ID=" + ID +
-                    ", ID_Demandeur=" + demandeur.toString() +
-                    ", ID_Aideur=" + aider.toString() +
-                    ", Statut='" + statut + '\'' +
-                    ", Message='" + message + '\'' +
-                    '}';
-        }
+        return "Demande{" +
+                "ID=" + ID +
+                ", ID_Demandeur=" + ID_demandeur +
+                ", ID_Valideur=" + ID_Valideur +
+                ", ID_Aideur=" + ID_Aideur +
+                ", Statut='" + statut + '\'' +
+                ", Message='" + message + '\'' +
+                '}';
+
 
     }
 }
