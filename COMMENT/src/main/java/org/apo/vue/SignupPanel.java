@@ -10,7 +10,8 @@ public class SignupPanel extends JPanel {
     private boolean fini = false;
     private String login;
     private String password;
-    private int hospital = 0;
+    private String passwordConfirm;
+    private String hospital;
     private String role;
 
     public SignupPanel(FrameView frameView) {
@@ -110,14 +111,26 @@ public class SignupPanel extends JPanel {
                 role = (String) roleComboBox.getSelectedItem();
 
                 if (Objects.equals(role, "Demandeur")) {
-                    hospital = Integer.parseInt(hospitalTextField.getText());
+                    hospital = hospitalTextField.getText();
                 }
 
-                String passwordConfirm = new String(passwordConfirmField.getPassword());
+                passwordConfirm = new String(passwordConfirmField.getPassword());
 
+                if (checkError()) {
+                    fini = true;
+                    setVisible(false);
+                    if (role.equals("Demandeur")) {
+                        frameView.getRequestPanel().setVisible(true);
+                        System.out.println(getHospital());
+                    }
+                    System.out.println("jsdgsgs");
+                }
+
+                /*
                 if (Objects.equals(password, passwordConfirm)){
                     fini = true;
                 }else {
+                    new PopUpWindow("Veuillez ressaisir un mot de passe");
                     System.out.println("Veuillez ressaisir un mot de passe");
                 }
 
@@ -127,6 +140,8 @@ public class SignupPanel extends JPanel {
                         frameView.getRequestPanel().setVisible(true);
                     }
                 }
+
+                 */
 
             }
         });
@@ -149,7 +164,7 @@ public class SignupPanel extends JPanel {
     }
 
     public int getHospital() {
-        return hospital;
+        return Integer.parseInt(hospital);
     }
 
     public String getLogin() {
@@ -166,5 +181,31 @@ public class SignupPanel extends JPanel {
 
     public boolean isFini() {
         return fini;
+    }
+
+    public boolean checkError() {
+        String errorMessage = "";
+        if (login.isEmpty()) {
+            errorMessage = "Veuillez entrer un login";
+        } else if (password.isEmpty()) {
+            errorMessage = "Veuillez entrer un mod de passe valide";
+        } else if (!password.equals(passwordConfirm)) {
+            errorMessage = "Confirmation du mot de passe invalide";
+        } else if (role.equals("Demandeur")) {
+            if (hospital.isEmpty()) {
+                errorMessage = "Veuillez entrer le numéro de votre hôpital";
+            } else {
+                try {
+                    Integer.parseInt(hospital);
+                } catch (NumberFormatException e) {
+                    errorMessage = "Veuillez entrer un numéro d'hôpital valide";
+                }
+            }
+        }
+        if (!errorMessage.isEmpty()) {
+            new PopUpWindow(errorMessage);
+            return false;
+        }
+        return true;
     }
 }
