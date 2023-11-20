@@ -33,6 +33,22 @@ public class Valideur extends User {
         myDB.Close();
     }
 
+    public void Action(Demande D, String statut) throws ErrorNoPerms{
+        if (D.ID_Valideur != this.UID) {
+            throw (new ErrorNoPerms("ID Invalide -> ChangerStatut"));
+        } else if (D.statut!="terminé" && D.statut!="prise") {
+
+            D.statut = statut;
+
+            DBInterface myDB = new DBInterface();
+            String queryModificationStatus = "UPDATE Demande SET Statu = '%s' ".formatted(statut);
+            myDB.Update(queryModificationStatus);
+        } else {
+            throw (new ErrorNoPerms("Statut invalide"));
+        }
+
+    }
+
     @Override
     public String toString() {
         return "Aideur{" +

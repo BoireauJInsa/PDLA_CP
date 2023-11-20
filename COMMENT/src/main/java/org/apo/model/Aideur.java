@@ -34,6 +34,18 @@ public class Aideur extends User {
         myDB.Close();
     }
 
+    public void Action(Demande D) throws ErrorNoPerms{
+        if (D.statut!="accepté") {
+            throw (new ErrorNoPerms("Statut invalide -> demande aideur"));
+        } else {
+            D.statut = "prise";
+
+            DBInterface myDB = new DBInterface();
+            String queryModificationStatus = "UPDATE Demande SET Statu = '%s' ".formatted("'prise'");
+            myDB.Update(queryModificationStatus);
+        }
+    }
+
     @Override
     public String toString() {
         return "Aideur{" +

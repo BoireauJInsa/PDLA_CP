@@ -40,6 +40,13 @@ public class Demandeur extends User {
         myDB.Close();
     }
 
+    public void Action (String Message) {
+        DBInterface myDB = new DBInterface ();
+        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", 0 );".formatted(this.UID, Message);
+        myDB.Update(queryDemande);
+
+    }
+
     @Override
     public String toString() {
         return "Aideur{" +

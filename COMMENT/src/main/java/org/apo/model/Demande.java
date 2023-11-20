@@ -49,26 +49,6 @@ public class Demande {
         this.message = message;
     }
 
-    public void RegisterDemande (int ID_Demandeur, String Message) {
-        DBInterface myDB = new DBInterface ();
-        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", 0 );".formatted(ID_Demandeur, Message);
-        myDB.Update(queryDemande);
-
-    }
-
-    public void ValiderRefuseDemande(int ID_Valideur, String statut) throws ErrorNoPerms{
-        if (ID_Valideur != this.ID_Valideur) {
-            throw (new ErrorNoPerms("ID Invalide -> ChangerStatut"));
-        } else if (this.statut!="terminé") {
-
-            this.statut = statut;
-
-            DBInterface myDB = new DBInterface();
-            String queryModificationStatus = "UPDATE Demande SET Statu = '%s' ".formatted(statut);
-            myDB.Update(queryModificationStatus);
-        }
-
-    }
     public void UpdateDemande(){};
 
     @Override
