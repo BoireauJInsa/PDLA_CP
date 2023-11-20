@@ -27,7 +27,7 @@ public class Valideur extends User {
         String queryID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
-        String queryUser = "INSERT INTO Valideur (ID) VALUES ( \"%s\" );".formatted(this.UID);
+        String queryUser = "INSERT INTO Valideur (ID, Statut) VALUES ( \"%s\", 'attente' );".formatted(this.UID);
         myDB.Update(queryUser);
 
         myDB.Close();
@@ -41,7 +41,7 @@ public class Valideur extends User {
             D.statut = statut;
 
             DBInterface myDB = new DBInterface();
-            String queryModificationStatus = "UPDATE Demande SET Statu = '%s' ".formatted(statut);
+            String queryModificationStatus = "UPDATE Demande SET Statut = '%s' WHERE ID = %d ;".formatted(statut, D.ID);
             myDB.Update(queryModificationStatus);
         } else {
             throw (new ErrorNoPerms("Statut invalide"));
@@ -51,7 +51,7 @@ public class Valideur extends User {
 
     @Override
     public String toString() {
-        return "Aideur{" +
+        return "Valideur{" +
                 "ID=" + super.getUID() +
                 ", Login=" + super.getLogin() +
                 ", Mot de pass=" + super.getMotDePass() +

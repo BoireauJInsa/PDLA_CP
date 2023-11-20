@@ -40,9 +40,9 @@ public class Demandeur extends User {
         myDB.Close();
     }
 
-    public void Action (String Message) {
+    public void Action (String message) {
         DBInterface myDB = new DBInterface ();
-        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", 0 );".formatted(this.UID, Message);
+        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", %d );".formatted(this.UID, message, this.UIDValideur);
         myDB.Update(queryDemande);
 
     }
@@ -53,7 +53,6 @@ public class Demandeur extends User {
                 "ID=" + super.getUID() +
                 ", Login=" + super.getLogin() +
                 ", Mot de pass=" + super.getMotDePass() +
-                ", Statut='" +  super.getStatus() + '\'' +
                 ", Valideur=" + UIDValideur +
                 '}';
     }

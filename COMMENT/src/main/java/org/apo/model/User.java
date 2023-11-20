@@ -42,7 +42,7 @@ public abstract class User {
         myDB.Close();
         return DB_Map;
     }
-    public abstract HashMap<Integer, Demande> recuperer_demandes_abstract();
+    public abstract HashMap recuperer_demandes_abstract();
     public abstract void RegisterUser(String login, String mdp);
 
     public int getUID() {

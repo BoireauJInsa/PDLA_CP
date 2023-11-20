@@ -15,7 +15,7 @@ public class Demande {
 
     public Demande (int ID) {
         DBInterface myDB = new DBInterface ();
-        String queryDemande = "SELECT * FROM Demande WHERE ID= %d".formatted(ID);
+        String queryDemande = "SELECT * FROM Demande WHERE ID= %d;".formatted(ID);
         ResultSet rs = myDB.Read(queryDemande);
 
         try {
