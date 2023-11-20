@@ -42,7 +42,7 @@ public class Demandeur extends User {
 
     public void Action (String message) {
         DBInterface myDB = new DBInterface ();
-        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", %d );".formatted(this.UID, message, this.UIDValideur);
+        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Valideur, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", %d, 0);".formatted(this.UID, message, this.UIDValideur);
         myDB.Update(queryDemande);
 
     }
