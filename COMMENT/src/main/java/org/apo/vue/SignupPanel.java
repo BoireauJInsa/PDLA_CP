@@ -67,7 +67,7 @@ public class SignupPanel extends JPanel {
         roleLabel.setBounds(0, passwordConfirmLabel.getY() + 50, roleLabel.getWidth(), roleLabel.getHeight());
         this.add(roleLabel);
 
-        JLabel hospitalLabel = new JLabel("Hospital : ");
+        JLabel hospitalLabel = new JLabel("Hôpital : ");
         hospitalLabel.setHorizontalAlignment(JLabel.CENTER);
         hospitalLabel.setSize(frameView.getWidth()/6, frameView.getHeight()/15);
         hospitalLabel.setBounds(2*frameView.getWidth()/3, passwordConfirmLabel.getY() + 50, hospitalLabel.getWidth(), hospitalLabel.getHeight());
@@ -123,26 +123,7 @@ public class SignupPanel extends JPanel {
                         frameView.getRequestPanel().setVisible(true);
                         System.out.println(getHospital());
                     }
-                    System.out.println("jsdgsgs");
                 }
-
-                /*
-                if (Objects.equals(password, passwordConfirm)){
-                    fini = true;
-                }else {
-                    new PopUpWindow("Veuillez ressaisir un mot de passe");
-                    System.out.println("Veuillez ressaisir un mot de passe");
-                }
-
-                if (fini) {
-                    setVisible(false);
-                    if (role.equals("Demandeur")) {
-                        frameView.getRequestPanel().setVisible(true);
-                    }
-                }
-
-                 */
-
             }
         });
         this.add(submitButton);
@@ -203,7 +184,7 @@ public class SignupPanel extends JPanel {
             }
         }
         if (!errorMessage.isEmpty()) {
-            new PopUpWindow(errorMessage);
+            new PopUpWindow(errorMessage, JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;

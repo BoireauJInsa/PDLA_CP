@@ -1,6 +1,7 @@
 package org.apo.vue;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,28 +11,18 @@ public class RequestPanel extends JPanel {
 
         this.setLayout(null);
 
-        JLabel titleLabel = new JLabel("Title");
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        titleLabel.setSize(frameView.getWidth()/3, frameView.getHeight()/10);
-        titleLabel.setBounds(frameView.getWidth()/40, frameView.getHeight()/25, titleLabel.getWidth(), titleLabel.getHeight());
-        this.add(titleLabel);
-
-        JTextField titleTextField = new JTextField();
-        titleTextField.setSize(frameView.getWidth()/2, frameView.getHeight()/10);
-        titleTextField.setBounds(frameView.getWidth()/2 - titleTextField.getWidth()/2, frameView.getHeight()/25, titleTextField.getWidth(), titleTextField.getHeight());
-        this.add(titleTextField);
-
-        JLabel messageLabel = new JLabel("Message");
+        JLabel messageLabel = new JLabel("Veuillez entrer votre demande :");
+        messageLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
         messageLabel.setHorizontalAlignment(JLabel.CENTER);
-        messageLabel.setSize(frameView.getWidth()/3, frameView.getHeight()/10);
-        messageLabel.setBounds(frameView.getWidth()/40, titleLabel.getY() + 80, messageLabel.getWidth(), messageLabel.getHeight());
+        messageLabel.setSize(frameView.getWidth(), frameView.getHeight()/10);
+        messageLabel.setBounds(frameView.getWidth()/2 - messageLabel.getWidth()/2, frameView.getHeight()/20, messageLabel.getWidth(), messageLabel.getHeight());
         this.add(messageLabel);
 
         JTextArea messageTextField = new JTextArea();
         messageTextField.setLineWrap(true);
         messageTextField.setWrapStyleWord(true);
         messageTextField.setSize(frameView.getWidth()/2, frameView.getHeight()/2);
-        messageTextField.setBounds(frameView.getWidth()/2 - messageTextField.getWidth()/2, titleLabel.getY() + 100, messageTextField.getWidth(), messageTextField.getHeight());
+        messageTextField.setBounds(frameView.getWidth()/2 - messageTextField.getWidth()/2, frameView.getHeight()/2 - messageTextField.getHeight()/2, messageTextField.getWidth(), messageTextField.getHeight());
         this.add(messageTextField);
 
         JButton cancelButton = new JButton("Cancel");

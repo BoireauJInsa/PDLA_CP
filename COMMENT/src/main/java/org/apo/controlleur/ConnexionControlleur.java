@@ -3,6 +3,7 @@ package org.apo.controlleur;
 import org.apo.vue.*;
 import org.apo.model.User;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -60,7 +61,7 @@ public class ConnexionControlleur {
 
                 connexion=false;
             }catch (SQLException ex){
-                new PopUpWindow ("Erreur, ce n'est pas les bon authentifiant");
+                new PopUpWindow ("Erreur, ce n'est pas les bon authentifiant", JOptionPane.ERROR_MESSAGE);
             }
 
 
@@ -86,11 +87,11 @@ public class ConnexionControlleur {
                     nous = LoginController.RegisterUser(creationVue.getLogin(), creationVue.getPassword(), creationVue.getRole(), creationVue.getHospital());
                     reassayer=false;
                 }else {
-                    new PopUpWindow ("Cette hospital n'éxiste pas");
+                    new PopUpWindow ("Cet hôpital n'existe pas", JOptionPane.ERROR_MESSAGE);
                 }
 
             }else {
-                new PopUpWindow ("Erreur, le login est déja pris");
+                new PopUpWindow ("Erreur, le login est déjà pris", JOptionPane.ERROR_MESSAGE);
             }
 
         }

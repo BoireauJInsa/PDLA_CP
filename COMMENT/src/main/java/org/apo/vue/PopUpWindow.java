@@ -4,9 +4,9 @@ import javax.swing.*;
 
 public class PopUpWindow extends JOptionPane {
 
-    public PopUpWindow(String message) {
+    public PopUpWindow(String message, int code) {
 
-        JOptionPane.showMessageDialog(null, message, "", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, "", code);
 
     }
 
