@@ -70,4 +70,28 @@ public class Demande {
 
 
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public int getID_demandeur() {
+        return ID_demandeur;
+    }
+
+    public int getID_Aideur() {
+        return ID_Aideur;
+    }
+
+    public int getID_Valideur() {
+        return ID_Valideur;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

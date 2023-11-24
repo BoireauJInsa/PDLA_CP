@@ -119,10 +119,7 @@ public class SignupPanel extends JPanel {
                 if (checkError()) {
                     fini = true;
                     setVisible(false);
-                    if (role.equals("Demandeur")) {
-                        frameView.getRequestPanel().setVisible(true);
-                        System.out.println(getHospital());
-                    }
+                    frameView.getDemandsPanel().setVisible(true);
                 }
             }
         });
