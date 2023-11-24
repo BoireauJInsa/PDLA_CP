@@ -40,10 +40,27 @@ public class Demandeur extends User {
         myDB.Close();
     }
 
-    public void Action (String message) {
+    public void AjoutDemande (String message) {
         DBInterface myDB = new DBInterface ();
         String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Valideur, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", %d, 0);".formatted(this.UID, message, this.UIDValideur);
         myDB.Update(queryDemande);
+
+    }
+
+
+    public void Action (Demande D) throws ErrorNoPerms {
+
+
+        if (D.ID_demandeur!=UID) {
+            throw (new ErrorNoPerms("Statut invalide -> demande ne vous appartient pas"));
+        } else {
+            D.statut = "prise";
+
+            DBInterface myDB = new DBInterface();
+            String queryModificationStatus = "UPDATE Demande SET Statut = '%s' WHERE ID = %d ;".formatted("'terminé'", D.ID);
+            myDB.Update(queryModificationStatus);
+        }
+
 
     }
 

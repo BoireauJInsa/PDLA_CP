@@ -30,8 +30,14 @@ public class Vue_Connection  {
          return true;
     }
 
-    public ArrayList<Integer> PriseInfoCr(){
+    public boolean ActionSupp(){return false;}
+    public ArrayList<Integer> ListModif(){
 
         return data;
+    }
+
+    public String getString(){
+
+        return login;
     }
 }
