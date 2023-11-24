@@ -51,6 +51,11 @@ public class Demande {
 
     public void UpdateDemande(){};
 
+    public String GetNameDemandeur(){
+        DBInterface myDB = new DBInterface ();
+        return myDB.ReadSingle("SELECT * FROM Personnes WHERE id=%d".formatted(ID_demandeur),"Login");
+    }
+
     @Override
     public String toString() {
 

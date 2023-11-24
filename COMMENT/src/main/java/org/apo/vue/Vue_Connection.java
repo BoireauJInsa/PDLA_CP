@@ -1,34 +1,37 @@
 package org.apo.vue;
 
 
+import org.apo.model.Demande;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Vue_Connection  {
 
-    int info;
 
-    public int id;
-    public int type;
+
+    public HashMap<Integer, Demande> info;
+    public ArrayList<Integer> data = new ArrayList<>();
     public String login;
     public String motDePasse;
     public int idSupp;
 
-     public Vue_Connection(int choixVue){
-        info = choixVue;
+     public Vue_Connection(HashMap<Integer, Demande> dem){
+        info = dem;
         idSupp=0;
      }
 
 
-    public int Selection () {
+    public HashMap<Integer, Demande> Selection () {
          return info;
     }
 
-    public void PriseInfoCo() {
-         id= 3;
+    public boolean PriseInfoCo() {
+         return true;
     }
 
-    public void PriseInfoCr(){
-         id=4;
-         type=1;
-         login ="cc";
-         motDePasse="aa";
+    public ArrayList<Integer> PriseInfoCr(){
+
+        return data;
     }
 }

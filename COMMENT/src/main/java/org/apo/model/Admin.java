@@ -10,8 +10,9 @@ public class Admin extends User {
     }
 
     @Override
-    public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Valideur WHERE Statut = attente;");
+    public HashMap<Integer, Valideur> recuperer_demandes_abstract() {
+        //return recuperer_demandes("SELECT * FROM Valideur WHERE Statut = attente;");
+        return  new HashMap<Integer, Valideur>();
     }
 
     @Override

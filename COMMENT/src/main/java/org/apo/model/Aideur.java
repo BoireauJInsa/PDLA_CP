@@ -36,7 +36,9 @@ public class Aideur extends User {
 
     public void Action(Demande D) throws ErrorNoPerms{
         if (D.statut!="accepté") {
-            throw (new ErrorNoPerms("Statut invalide -> demande aideur"));
+            throw (new ErrorNoPerms("Statut invalide -> demande pas encore accepté"));
+        } else if (D.statut=="prise") {
+            throw (new ErrorNoPerms("Statut invalide -> demande déja prise"));
         } else {
             D.statut = "prise";
 
