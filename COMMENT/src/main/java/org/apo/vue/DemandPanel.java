@@ -16,6 +16,7 @@ public class DemandPanel extends JPanel {
     public DemandPanel(FrameView frameView, Demande demande) {
 
         this.name = name;
+        this.demande=demande;
         this.message = message;
 
         this.setLayout(new BorderLayout());
@@ -47,7 +48,7 @@ public class DemandPanel extends JPanel {
         return demande;
     }
 
-    public JCheckBox getCheckBox() {
-        return this.checkBox;
+    public boolean getSelect() {
+        return this.checkBox.isSelected();
     }
 }

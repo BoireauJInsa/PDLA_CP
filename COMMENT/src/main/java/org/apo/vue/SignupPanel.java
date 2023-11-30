@@ -1,11 +1,28 @@
 package org.apo.vue;
 
+import org.apo.model.ErrorBadParameters;
+import org.apo.model.ErrorDontExist;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class SignupPanel extends JPanel {
+
+    public interface Observer {
+        void Signup ( String login, String password, String role, String hopital) throws ErrorDontExist, ErrorBadParameters;
+
+    }
+
+    private final List<SignupPanel.Observer> ListObserver = new ArrayList<>();
+    public void AddObserver (SignupPanel.Observer obs){
+        synchronized (ListObserver){
+            ListObserver.add(obs);
+        }
+    }
 
     private boolean fini = false;
     private String login;
@@ -15,6 +32,7 @@ public class SignupPanel extends JPanel {
     private String role;
 
     public SignupPanel(FrameView frameView) {
+
 
         this.setLayout(null);
 
@@ -111,15 +129,32 @@ public class SignupPanel extends JPanel {
                 role = (String) roleComboBox.getSelectedItem();
 
                 if (Objects.equals(role, "Demandeur")) {
-                    hospital = hospitalTextField.getText();
+                    hospital=hospitalTextField.getText();
+                }else {
+                    hospital="0";
                 }
 
                 passwordConfirm = new String(passwordConfirmField.getPassword());
 
                 if (checkError()) {
-                    fini = true;
-                    setVisible(false);
-                    frameView.getDemandsPanel().setVisible(true);
+
+                    boolean ok =true;
+
+                    synchronized (ListObserver){
+                        for (Observer observer : ListObserver){
+                            try {
+                                observer.Signup(login,password,role,hospital);
+                            } catch (ErrorDontExist | ErrorBadParameters ex) {
+                                new PopUpWindow(ex.getMessage(),JOptionPane.WARNING_MESSAGE);
+                                ok = false;
+                            }
+                        }
+                    }
+
+                    if (ok){
+                        setVisible(false);
+                        frameView.getDemandsPanel().newSetVisible();
+                    }
                 }
             }
         });
@@ -141,25 +176,6 @@ public class SignupPanel extends JPanel {
         this.setVisible(false);
     }
 
-    public int getHospital() {
-        return Integer.parseInt(hospital);
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public boolean isFini() {
-        return fini;
-    }
 
     public boolean checkError() {
         String errorMessage = "";
@@ -170,14 +186,10 @@ public class SignupPanel extends JPanel {
         } else if (!password.equals(passwordConfirm)) {
             errorMessage = "Confirmation du mot de passe invalide";
         } else if (role.equals("Demandeur")) {
-            if (hospital.isEmpty()) {
+            if (hospital=="") {
                 errorMessage = "Veuillez entrer le numéro de votre hôpital";
-            } else {
-                try {
-                    Integer.parseInt(hospital);
-                } catch (NumberFormatException e) {
-                    errorMessage = "Veuillez entrer un numéro d'hôpital valide";
-                }
+            }else {
+                Integer.parseInt(hospital);
             }
         }
         if (!errorMessage.isEmpty()) {

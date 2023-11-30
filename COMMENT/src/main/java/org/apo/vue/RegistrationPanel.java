@@ -1,12 +1,16 @@
 package org.apo.vue;
 
+import org.apo.model.Demande;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegistrationPanel extends JPanel{
 
-    private int mode = 0;
+
 
     public RegistrationPanel(FrameView frameView) {
 
@@ -19,7 +23,7 @@ public class RegistrationPanel extends JPanel{
         signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setMode(1);
+
                 setVisible(false);
                 frameView.getSignupPanel().setVisible(true);
             }
@@ -33,7 +37,7 @@ public class RegistrationPanel extends JPanel{
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setMode(2);
+
                 setVisible(false);
                 frameView.getLoginPanel().setVisible(true);
             }
@@ -43,11 +47,4 @@ public class RegistrationPanel extends JPanel{
         this.setVisible(false);
     }
 
-    public int getMode() {
-        return mode;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
 }

@@ -1,83 +1,26 @@
 package org.apo.controlleur;
 
 import org.apo.model.*;
+import org.apo.vue.DemandsPanel;
 import org.apo.vue.PopUpWindow;
-import org.apo.vue.Vue_Connection;
+import org.apo.vue.RequestPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
-public class DemandeController {
-
-
-    private Vue_Connection vue;
-
-    private ArrayList<Integer> aTraiter;
-
-    public DemandeController (User nous){
+public class DemandeController implements DemandsPanel.Observer, ConnexionControlleur.Observer, RequestPanel.Observer {
 
 
+    private User nous;
 
-        vue=new Vue_Connection(nous.recuperer_demandes_abstract());
+    @Override
+    public void AccepterDemande(ArrayList<Demande> aTraiter) {
+        Aideur local = (Aideur) nous;
 
-        while (!vue.PriseInfoCo() && !vue.ActionSupp()){
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-        if (vue.ActionSupp()){
-            switch (nous.getClass().getName()){
-
-                case "Demandeur" : CreerDemande((Demandeur) nous);
-                    break;
-
-                default:
-                    new PopUpWindow("Vous n'êtes pas un utilisateur normal", JOptionPane.WARNING_MESSAGE);
-            }
-        }else{
-            aTraiter=vue.ListModif();
-
-            switch (nous.getClass().getName()){
-                case "Aideur" : AideurDemande((Aideur) nous);
-                break;
-
-                case "Valideur" : ValideurDemande((Valideur) nous);
-                    break;
-
-                case "Demandeur" : DemandeurDemande((Demandeur) nous);
-                    break;
-
-                default:
-                    new PopUpWindow("Vous n'êtes pas un utilisateur normal", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }
-
-    private void ValideurDemande ( Valideur nous){
-
-        for (int IDdemande : aTraiter){
+        for (Demande demande : aTraiter) {
 
             try {
-                nous.Action(new Demande(IDdemande),"accepté");
-            } catch (ErrorNoPerms e) {
-                new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
-            }
-
-        }
-
-    }
-
-    private void AideurDemande ( Aideur nous){
-
-        for (int IDdemande : aTraiter) {
-
-            try {
-                nous.Action(new Demande(IDdemande));
+                local.Action(demande);
             } catch (ErrorNoPerms e) {
                 new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
 
@@ -86,31 +29,48 @@ public class DemandeController {
         }
     }
 
-    private void DemandeurDemande ( Demandeur nous){
+    @Override
+    public void CreerDemande(String message) {
+        Demandeur local = (Demandeur) nous;
 
-        for (int IDdemande : aTraiter){
+        local.AjoutDemande(message);
+    }
+
+    @Override
+    public void SupprimerDemande(ArrayList<Demande> aTraiter) {
+        Demandeur local = (Demandeur) nous;
+
+        for (Demande demande : aTraiter){
 
             try {
-                nous.Action(new Demande(IDdemande));
+                local.Action(demande);
             } catch (ErrorNoPerms e) {
                 new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
 
             }
         }
-
     }
 
-    private void CreerDemande (Demandeur nous) {
+    @Override
+    public void ValiderDemande(ArrayList<Demande> aTraiter) {
 
-        while (!vue.PriseInfoCo()){
+        Valideur local = (Valideur) nous;
+
+        for (Demande demande : aTraiter){
+
             try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                local.Action(demande,"accepté");
+            } catch (ErrorNoPerms e) {
+                new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
             }
-        }
 
-        nous.AjoutDemande(vue.getString());
+        }
     }
 
+    public DemandeController (){}
+
+    @Override
+    public void FinCreation(User nous) {
+        this.nous=nous;
+    }
 }

@@ -10,7 +10,7 @@ public class Valideur extends User {
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demandes WHERE ID_Valideur = " + this.UID + " ;");
+        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Valideur = %s AND Statut = 'attente';".formatted(super.getUID()));
     }
 
     @Override
@@ -42,6 +42,7 @@ public class Valideur extends User {
 
             DBInterface myDB = new DBInterface();
             String queryModificationStatus = "UPDATE Demande SET Statut = '%s' WHERE ID = %d ;".formatted(statut, D.ID);
+
             myDB.Update(queryModificationStatus);
         } else {
             throw (new ErrorNoPerms("Statut invalide"));

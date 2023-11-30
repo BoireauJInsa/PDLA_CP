@@ -81,7 +81,6 @@ ALTER TABLE Demandeur ADD CONSTRAINT fk_Demandeur_Valideur  FOREIGN KEY(ID_Valid
 
 ALTER TABLE Aideur ADD CONSTRAINT fk_Aideur_Personnes  FOREIGN KEY(ID) REFERENCES Personnes (ID) ; 
 
-ALTER TABLE Demande ADD CONSTRAINT fk_Demande_Aideur  FOREIGN KEY(ID_Aideur) REFERENCES Aideur (ID) ; 
 ALTER TABLE Demande ADD CONSTRAINT fk_Demande_Demandeur  FOREIGN KEY(ID_Demandeur) REFERENCES Demandeur (ID) ; 
 
 ALTER TABLE Echec ADD CONSTRAINT fk_Echec_Demande  FOREIGN KEY(ID) REFERENCES Demande (ID) ; 

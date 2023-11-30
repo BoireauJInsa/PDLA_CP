@@ -14,6 +14,9 @@ public class Demande {
     String message;
 
     public Demande (int ID) {
+
+        this.ID=ID;
+
         DBInterface myDB = new DBInterface ();
         String queryDemande = "SELECT * FROM Demande WHERE ID= %d;".formatted(ID);
         ResultSet rs = myDB.Read(queryDemande);
@@ -24,7 +27,7 @@ public class Demande {
                 ID_Aideur = rs.getInt("ID_Aideur");
                 ID_Valideur = rs.getInt("ID_Valideur");
                 message = rs.getString("Message");
-                statut = rs.getString("Statu");
+                statut = rs.getString("Statut");
 
             }
             rs.close();

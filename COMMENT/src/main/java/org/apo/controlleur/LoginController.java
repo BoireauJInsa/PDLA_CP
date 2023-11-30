@@ -4,6 +4,7 @@ import org.apo.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class LoginController {
     public static User ConnexionAvecID(int ID) {
@@ -59,7 +60,8 @@ public class LoginController {
 
     public static boolean Existe (String aVerifier, String collone, String table){
         DBInterface myDB = new DBInterface();
-        String queryLogin = "SELECT Login FROM %s".formatted(table);
+        String queryLogin = "SELECT * FROM %s".formatted(table);
+
 
         ResultSet rs = myDB.Read(queryLogin);
         boolean sortie = false;
@@ -68,8 +70,9 @@ public class LoginController {
             while (rs.next()) {
                 String verifieur = rs.getString(collone);
 
-                if (aVerifier==verifieur){
+                if (Objects.equals(aVerifier, verifieur)){
                     sortie=true;
+
                 }
             }
         } catch (SQLException ex){

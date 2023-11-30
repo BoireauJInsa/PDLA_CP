@@ -17,7 +17,7 @@ public class Demandeur extends User {
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demandes WHERE ID_Demandeur = " + this.UID + " ;");
+        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Demandeur = " + this.UID + " ;");
     }
 
     @Override

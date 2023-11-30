@@ -1,101 +1,72 @@
 package org.apo.controlleur;
 
+import org.apo.model.ErrorBadParameters;
+import org.apo.model.ErrorDontExist;
 import org.apo.vue.*;
 import org.apo.model.User;
 
 import javax.swing.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class ConnexionControlleur {
+public class ConnexionControlleur implements  LoginPanel.Observer, SignupPanel.Observer{
 
-    Vue_Connection visuel;
-    User nous;
-    FrameView vue;
+    public interface Observer {
+        void FinCreation ( User nous);
 
-    ConnexionControlleur(){
+    }
 
-        vue = new FrameView();
+    private User nous;
 
-        RegistrationPanel registeVue = vue.getRegistrationPanel();
-
-        while (registeVue.getMode()==0){
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        if (registeVue.getMode()==1){
-            Creation();
-        }else{
-            Connexion();
+    private final List<ConnexionControlleur.Observer> ListObserver = new ArrayList<>();
+    public void AddObserver (ConnexionControlleur.Observer obs){
+        synchronized (ListObserver){
+            ListObserver.add(obs);
         }
     }
 
-    private void Connexion () {
-        boolean connexion = true;
-        String login = "";
-        String mdp = "";
+    public ConnexionControlleur(){
 
-        LoginPanel connexionVue = vue.getLoginPanel();
+    }
 
-        while (connexion){
-
-            while (!connexionVue.isFini()){
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            login = connexionVue.getLogin();
-            mdp = connexionVue.getPassword();
+    public void Login ( String login, String password) throws ErrorBadParameters {
 
             try {
-
-                nous = LoginController.ConnexionAvecLogin(login,mdp);
-
-                connexion=false;
+                nous = LoginController.ConnexionAvecLogin(login,password);
             }catch (SQLException ex){
-                new PopUpWindow ("Erreur, ce n'est pas les bon authentifiant", JOptionPane.ERROR_MESSAGE);
+                throw new ErrorBadParameters("Ce n'ai pas les bon login / mot de pass");
             }
 
-
+        synchronized (ListObserver){
+            for (Observer observer : ListObserver){
+                observer.FinCreation(nous);
+            }
         }
 
     }
 
-    private void Creation (){
-        boolean reassayer = true;
-        SignupPanel creationVue = vue.getSignupPanel();
+    public void Signup (String login, String password, String role, String hopital) throws ErrorDontExist, ErrorBadParameters {
 
-        while (reassayer){
-            while (!creationVue.isFini()){
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            if (!LoginController.Existe(login, "Login", "Personnes")){
+                if (!Objects.equals(role, "Demandeur") || LoginController.Existe(hopital, "ID", "Valideur")){
+                    nous = LoginController.RegisterUser(login, password, role, Integer.parseInt(hopital));
 
-            if (!LoginController.Existe(creationVue.getLogin(), "Login", "Personnes")){
-                if (!Objects.equals(creationVue.getRole(), "Demandeur") || LoginController.Existe(String.valueOf( creationVue.getHospital()), "ID", "Valideur")){
-                    nous = LoginController.RegisterUser(creationVue.getLogin(), creationVue.getPassword(), creationVue.getRole(), creationVue.getHospital());
-                    reassayer=false;
                 }else {
-                    new PopUpWindow ("Cet hôpital n'existe pas", JOptionPane.ERROR_MESSAGE);
+                    throw new ErrorDontExist("Cette hopital n'éxiste pas");
                 }
 
             }else {
-                new PopUpWindow ("Erreur, le login est déjà pris", JOptionPane.ERROR_MESSAGE);
+                throw new ErrorBadParameters("Ce login est déja pris");
             }
 
+        synchronized (ListObserver){
+            for (Observer observer : ListObserver){
+                observer.FinCreation(nous);
+            }
         }
-
 
     }
 

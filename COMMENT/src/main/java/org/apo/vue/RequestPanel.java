@@ -1,13 +1,30 @@
 package org.apo.vue;
 
+import org.apo.model.Demande;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestPanel extends JPanel {
+
+    public interface Observer {
+
+        void CreerDemande (String message);
+
+    }
+
+    private final List<RequestPanel.Observer> ListObserver = new ArrayList<>();
+    public void AddObserver (RequestPanel.Observer obs){
+        synchronized (ListObserver){
+            ListObserver.add(obs);
+        }
+    }
 
     private int messageSize;
 
@@ -78,7 +95,16 @@ public class RequestPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (checkError()) {
+                    String text = messageTextField.getText();
 
+                    synchronized (ListObserver){
+                        for (Observer observer : ListObserver){
+                            observer.CreerDemande(text);
+                        }
+                    }
+
+                    setVisible(false);
+                    frameView.getDemandsPanel().newSetVisible();
                 }
             }
         });

@@ -1,12 +1,27 @@
 package org.apo.vue;
 
+import org.apo.model.ErrorBadParameters;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginPanel extends JPanel {
 
-    private boolean fini = false;
+    public interface Observer {
+        void Login ( String login, String password) throws ErrorBadParameters;
+
+    }
+
+    private final List<LoginPanel.Observer> ListObserver = new ArrayList<>();
+    public void AddObserver (LoginPanel.Observer obs){
+        synchronized (ListObserver){
+            ListObserver.add(obs);
+        }
+    }
+
     private String login;
     private String password;
 
@@ -55,7 +70,25 @@ public class LoginPanel extends JPanel {
 
                 login = loginTextField.getText();
                 password = new String(passwordField.getPassword());
-                fini=true;
+
+                boolean ok =true;
+
+                synchronized (ListObserver){
+                    for (Observer observer : ListObserver){
+                        try {
+                            observer.Login(login,password);
+                        } catch (ErrorBadParameters ex) {
+                            new PopUpWindow(ex.getMessage(),JOptionPane.WARNING_MESSAGE);
+                            ok = false;
+                        }
+                    }
+                }
+
+                if (ok){
+                    setVisible(false);
+                    frameView.getDemandsPanel().newSetVisible();
+                }
+
             }
         });
         this.add(submitButton);
@@ -76,19 +109,4 @@ public class LoginPanel extends JPanel {
         this.setVisible(false);
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public boolean isFini() {
-        return fini;
-    }
-
-    public void Recommencer (){
-        fini=false;
-    }
 }

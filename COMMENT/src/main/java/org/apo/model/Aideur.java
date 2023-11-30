@@ -11,7 +11,7 @@ public class Aideur extends User {
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demandes WHERE Statut = accepté;");
+        return recuperer_demandes("SELECT * FROM Demande WHERE Statut = accepté;");
     }
 
     @Override
