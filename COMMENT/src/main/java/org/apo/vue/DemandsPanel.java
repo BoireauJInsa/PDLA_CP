@@ -13,6 +13,7 @@ public class DemandsPanel extends JPanel {
     private JScrollPane scrollPane;
     private Container demandsContainer;
     private List<DemandPanel> demandPanelList;
+    private List<DemandPanel> checkedDemands;
     public DemandsPanel (FrameView frameView) {
 
         this.setLayout(null);
@@ -41,31 +42,10 @@ public class DemandsPanel extends JPanel {
         validateDemandButton.setFocusable(false);
         this.add(validateDemandButton);
 
-        List<Color> colors = new ArrayList<>();
-        colors.add(Color.red);
-        colors.add(Color.green);
-        colors.add(Color.blue);
-        colors.add(Color.gray);
-        colors.add(Color.yellow);
-        colors.add(Color.pink);
-        colors.add(Color.orange);
-        colors.add(Color.black);
-        colors.add(Color.cyan);
-        colors.add(Color.magenta);
-
         demandsContainer = new Container();
         demandsContainer.setLayout(new BoxLayout(demandsContainer, BoxLayout.Y_AXIS));
 
         demandPanelList = new ArrayList<>();
-
-        /*
-        for (int i = 0; i < 10; i++) {
-            DemandPanel demandPanel = new DemandPanel(frameView, this, );
-            demandsContainer.add(demandPanel);
-            demandPanelList.add(demandPanel);
-        }
-
-         */
 
         scrollPane = new JScrollPane(demandsContainer);
         scrollPane.setBounds(frameView.getWidth()/20, frameView.getHeight()/10, 18*frameView.getWidth()/20, 8*frameView.getHeight()/10);
@@ -77,7 +57,8 @@ public class DemandsPanel extends JPanel {
         newDemandButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setVisible(false);
+                frameView.getRequestPanel().setVisible(true);
             }
         });
 

@@ -22,7 +22,6 @@ public class FrameView extends JFrame{
         this.setLayout(null);
         this.setResizable(false);
 
-
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -39,7 +38,7 @@ public class FrameView extends JFrame{
 
         registrationPanel = new RegistrationPanel(this);
         this.getContentPane().add(registrationPanel);
-        registrationPanel.setVisible(true);
+        registrationPanel.setVisible(false);
 
         signupPanel = new SignupPanel(this);
         this.getContentPane().add(signupPanel);
@@ -55,7 +54,7 @@ public class FrameView extends JFrame{
 
         demandsPanel = new DemandsPanel(this);
         this.getContentPane().add(demandsPanel);
-        demandsPanel.setVisible(false);
+        demandsPanel.setVisible(true);
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
