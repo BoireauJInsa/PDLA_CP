@@ -64,7 +64,8 @@ public class RequestPanel extends JPanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setVisible(false);
+                frameView.getDemandsPanel().setVisible(true);
             }
         });
         this.add(cancelButton);

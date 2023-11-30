@@ -11,6 +11,7 @@ public class DemandPanel extends JPanel {
     private Demande demande;
     private String name;
     private String message;
+    private JCheckBox checkBox;
 
     public DemandPanel(FrameView frameView, Demande demande) {
 
@@ -30,7 +31,7 @@ public class DemandPanel extends JPanel {
         messageLabel.setWrapStyleWord(true);
         this.add(messageLabel, BorderLayout.CENTER);
 
-        JCheckBox checkBox = new JCheckBox();
+        checkBox = new JCheckBox();
         this.setVisible(true);
 
         JPanel topPanel = new JPanel();
@@ -46,4 +47,7 @@ public class DemandPanel extends JPanel {
         return demande;
     }
 
+    public JCheckBox getCheckBox() {
+        return this.checkBox;
+    }
 }

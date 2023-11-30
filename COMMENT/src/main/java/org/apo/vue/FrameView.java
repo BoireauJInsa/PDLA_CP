@@ -38,7 +38,7 @@ public class FrameView extends JFrame{
 
         registrationPanel = new RegistrationPanel(this);
         this.getContentPane().add(registrationPanel);
-        registrationPanel.setVisible(false);
+        registrationPanel.setVisible(true);
 
         signupPanel = new SignupPanel(this);
         this.getContentPane().add(signupPanel);
@@ -54,7 +54,7 @@ public class FrameView extends JFrame{
 
         demandsPanel = new DemandsPanel(this);
         this.getContentPane().add(demandsPanel);
-        demandsPanel.setVisible(true);
+        demandsPanel.setVisible(false);
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
