@@ -1,23 +1,21 @@
 package org.apo.model;
 import org.apo.controlleur.DBInterface;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 public class Demandeur extends User {
 
-    private int UIDValideur;
+    private int UIDHospital;
 
     public Demandeur(int UID, int UIDValideur) {
         super(UID);
-        this.UIDValideur = UIDValideur;
+        this.UIDHospital = UIDValideur;
     }
 
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Demandeur = " + this.UID + " ;");
+        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Demandeur = %d AND Statut != '%s';".formatted(this.UID, "terminé"));
     }
 
     @Override
@@ -34,7 +32,7 @@ public class Demandeur extends User {
         String queryID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
-        String queryUser = "INSERT INTO Demandeur (ID, ID_Valideur) VALUES ( \"%s\",  \"%s\" );".formatted(this.UID, this.UIDValideur);
+        String queryUser = "INSERT INTO Demandeur (ID, ID_hospital) VALUES ( \"%s\",  \"%s\" );".formatted(this.UID, this.UIDHospital);
         myDB.Update(queryUser);
 
         myDB.Close();
@@ -42,7 +40,7 @@ public class Demandeur extends User {
 
     public void AjoutDemande (String message) {
         DBInterface myDB = new DBInterface ();
-        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_Valideur, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", %d, 0);".formatted(this.UID, message, this.UIDValideur);
+        String queryDemande ="INSERT INTO Demande (ID_Demandeur, Message, Statut, ID_hospital, ID_Aideur) VALUES ( %d,  \"%s\" , \"attente\", %d, 0);".formatted(this.UID, message, this.UIDHospital);
         myDB.Update(queryDemande);
 
     }
@@ -54,10 +52,10 @@ public class Demandeur extends User {
         if (D.ID_demandeur!=UID) {
             throw (new ErrorNoPerms("Statut invalide -> demande ne vous appartient pas"));
         } else {
-            D.statut = "prise";
+            D.statut = "terminé";
 
             DBInterface myDB = new DBInterface();
-            String queryModificationStatus = "UPDATE Demande SET Statut = '%s' WHERE ID = %d ;".formatted("'terminé'", D.ID);
+            String queryModificationStatus = "UPDATE Demande SET Statut = '%s' WHERE ID = %d ;".formatted("terminé", D.ID);
             myDB.Update(queryModificationStatus);
         }
 
@@ -70,11 +68,11 @@ public class Demandeur extends User {
                 "ID=" + super.getUID() +
                 ", Login=" + super.getLogin() +
                 ", Mot de pass=" + super.getMotDePass() +
-                ", Valideur=" + UIDValideur +
+                ", Valideur=" + UIDHospital +
                 '}';
     }
 
-    public int getUIDValideur() {
-        return UIDValideur;
+    public int getUIDHospital() {
+        return UIDHospital;
     }
 }

@@ -104,12 +104,13 @@ public class SignupPanel extends JPanel {
         roleComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Objects.equals(roleComboBox.getSelectedItem(), roles[0])) {
-                    hospitalLabel.setVisible(true);
-                    hospitalTextField.setVisible(true);
-                } else {
+                if (Objects.equals(roleComboBox.getSelectedItem(), roles[1])) {
                     hospitalLabel.setVisible(false);
                     hospitalTextField.setVisible(false);
+
+                } else {
+                    hospitalLabel.setVisible(true);
+                    hospitalTextField.setVisible(true);
                 }
             }
         });
@@ -189,7 +190,13 @@ public class SignupPanel extends JPanel {
             if (hospital=="") {
                 errorMessage = "Veuillez entrer le numéro de votre hôpital";
             }else {
-                Integer.parseInt(hospital);
+                try{
+                    Integer.parseInt(hospital);
+                }
+                catch(Exception E){
+                    errorMessage = "Veuillez entrer un numéro valide";
+                }
+
             }
         }
         if (!errorMessage.isEmpty()) {

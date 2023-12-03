@@ -4,13 +4,16 @@ import java.util.HashMap;
 
 public class Valideur extends User {
 
-    public Valideur(int UID) {
+    int UIDHospital;
+
+    public Valideur(int UID, int UIDHospital) {
         super(UID);
+        this.UIDHospital=UIDHospital;
     }
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Valideur = %s AND Statut = 'attente';".formatted(super.getUID()));
+        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Valideur = %s AND Statut = 'attente';".formatted(UIDHospital));
     }
 
     @Override
@@ -27,14 +30,14 @@ public class Valideur extends User {
         String queryID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
-        String queryUser = "INSERT INTO Valideur (ID, Statut) VALUES ( \"%s\", 'attente' );".formatted(this.UID);
+        String queryUser = "INSERT INTO Valideur (ID, Statut) VALUES ( \"%s\", 'attente' );".formatted(UIDHospital);
         myDB.Update(queryUser);
 
         myDB.Close();
     }
 
     public void Action(Demande D, String statut) throws ErrorNoPerms{
-        if (D.ID_Valideur != this.UID) {
+        if (D.ID_hospital != this.UIDHospital) {
             throw (new ErrorNoPerms("ID Invalide -> ChangerStatut"));
         } else if (D.statut!="terminé" && D.statut!="prise") {
 

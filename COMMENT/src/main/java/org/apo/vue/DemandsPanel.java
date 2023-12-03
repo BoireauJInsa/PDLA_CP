@@ -183,6 +183,9 @@ public class DemandsPanel extends JPanel implements ConnexionControlleur.Observe
                 throw new RuntimeException("Mais qui êtes vous ?");
         }
 
+        demandsContainer.removeAll();
+        demandPanelList.clear();
+
         if (type!="Admin"){
             HashMap<Integer, Demande> demandesMap;
             demandesMap = nous.recuperer_demandes_abstract();
@@ -192,7 +195,6 @@ public class DemandsPanel extends JPanel implements ConnexionControlleur.Observe
             }
         }
 
-        demandsContainer.removeAll();
         for (DemandPanel panel : demandPanelList){
             demandsContainer.add(panel);
         }

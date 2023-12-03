@@ -9,7 +9,7 @@ public class Demande {
     int ID;
     int ID_demandeur;
     int ID_Aideur;
-    int ID_Valideur;
+    int ID_hospital;
     String statut;
     String message;
 
@@ -25,7 +25,7 @@ public class Demande {
             while (rs.next()) {
                 ID_demandeur = rs.getInt("ID_Demandeur");
                 ID_Aideur = rs.getInt("ID_Aideur");
-                ID_Valideur = rs.getInt("ID_Valideur");
+                ID_hospital = rs.getInt("ID_hospital");
                 message = rs.getString("Message");
                 statut = rs.getString("Statut");
 
@@ -43,11 +43,11 @@ public class Demande {
 
     }
 
-    public Demande(int ID, int ID_demandeur, int ID_Valideur, int ID_Aideur, String statut, String message) {
+    public Demande(int ID, int ID_demandeur, int ID_hospital, int ID_Aideur, String statut, String message) {
         this.ID = ID;
         this.ID_demandeur = ID_demandeur;
         this.ID_Aideur = ID_Aideur;
-        this.ID_Valideur = ID_Valideur;
+        this.ID_hospital = ID_hospital;
         this.statut = statut;
         this.message = message;
     }
@@ -65,7 +65,7 @@ public class Demande {
         return "Demande{" +
                 "ID=" + ID +
                 ", ID_Demandeur=" + ID_demandeur +
-                ", ID_Valideur=" + ID_Valideur +
+                ", ID_hospital=" + ID_hospital +
                 ", ID_Aideur=" + ID_Aideur +
                 ", Statut='" + statut + '\'' +
                 ", Message='" + message + '\'' +
@@ -86,8 +86,8 @@ public class Demande {
         return ID_Aideur;
     }
 
-    public int getID_Valideur() {
-        return ID_Valideur;
+    public int getID_hospital() {
+        return ID_hospital;
     }
 
     public String getStatut() {

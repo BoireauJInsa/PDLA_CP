@@ -2,6 +2,7 @@ package org.apo.model;
 import org.apo.controlleur.DBInterface;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Aideur extends User {
 
@@ -11,7 +12,7 @@ public class Aideur extends User {
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demande WHERE Statut = accepté;");
+        return recuperer_demandes("SELECT * FROM Demande WHERE Statut = 'accepté';");
     }
 
     @Override
@@ -35,15 +36,17 @@ public class Aideur extends User {
     }
 
     public void Action(Demande D) throws ErrorNoPerms{
-        if (D.statut!="accepté") {
+        if (!Objects.equals(D.statut, "accepté")) {
+            System.out.println(D.statut);
             throw (new ErrorNoPerms("Statut invalide -> demande pas encore accepté"));
-        } else if (D.statut=="prise") {
+        } else if (D.statut.equals("prise")) {
+            System.out.println(D.statut);
             throw (new ErrorNoPerms("Statut invalide -> demande déja prise"));
         } else {
             D.statut = "prise";
 
             DBInterface myDB = new DBInterface();
-            String queryModificationStatus = "UPDATE Demande SET Statut = '%s', ID_Aideur = %d WHERE ID = %d ;".formatted("'prise'", this.UID, D.ID);
+            String queryModificationStatus = "UPDATE Demande SET Statut = '%s', ID_Aideur = %d WHERE ID = %d ;".formatted("prise", this.UID, D.ID);
             myDB.Update(queryModificationStatus);
         }
     }

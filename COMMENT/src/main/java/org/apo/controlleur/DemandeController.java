@@ -22,7 +22,7 @@ public class DemandeController implements DemandsPanel.Observer, ConnexionContro
             try {
                 local.Action(demande);
             } catch (ErrorNoPerms e) {
-                new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
+                new PopUpWindow(e.getMessage(), JOptionPane.WARNING_MESSAGE);
 
             }
 
@@ -45,7 +45,7 @@ public class DemandeController implements DemandsPanel.Observer, ConnexionContro
             try {
                 local.Action(demande);
             } catch (ErrorNoPerms e) {
-                new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
+                new PopUpWindow(e.getMessage(), JOptionPane.WARNING_MESSAGE);
 
             }
         }
@@ -61,7 +61,7 @@ public class DemandeController implements DemandsPanel.Observer, ConnexionContro
             try {
                 local.Action(demande,"accepté");
             } catch (ErrorNoPerms e) {
-                new PopUpWindow("Vous n'avez pas les droit de modifier cette demande", JOptionPane.WARNING_MESSAGE);
+                new PopUpWindow(e.getMessage(), JOptionPane.WARNING_MESSAGE);
             }
 
         }

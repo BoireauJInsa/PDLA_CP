@@ -51,12 +51,7 @@ public class ConnexionControlleur implements  LoginPanel.Observer, SignupPanel.O
     public void Signup (String login, String password, String role, String hopital) throws ErrorDontExist, ErrorBadParameters {
 
             if (!LoginController.Existe(login, "Login", "Personnes")){
-                if (!Objects.equals(role, "Demandeur") || LoginController.Existe(hopital, "ID", "Valideur")){
-                    nous = LoginController.RegisterUser(login, password, role, Integer.parseInt(hopital));
-
-                }else {
-                    throw new ErrorDontExist("Cette hopital n'éxiste pas");
-                }
+                   nous = LoginController.RegisterUser(login, password, role, Integer.parseInt(hopital));
 
             }else {
                 throw new ErrorBadParameters("Ce login est déja pris");

@@ -14,14 +14,19 @@ public class LoginController {
         String  typeUser = myDB.ReadSingle(query, "Statut");
         myDB.Close();
 
+        String IDString ="";
+        
         switch (typeUser) {
             case "valideur":
-                return new Valideur(ID);
+                myDB = new DBInterface ();
+                query = "SELECT * FROM Demandeur WHERE ID = %d ;".formatted(ID);
+                IDString = myDB.ReadSingle(query, "ID_Hospital");
+                return new Valideur(ID, Integer.parseInt(IDString));
 
             case "demandeur":
                 myDB = new DBInterface ();
                 query = "SELECT * FROM Demandeur WHERE ID = %d ;".formatted(ID);
-                String IDString = myDB.ReadSingle(query, "ID_Valideur");
+                IDString = myDB.ReadSingle(query, "ID_Hospital");
                 return new Demandeur(ID, Integer.parseInt(IDString));
 
             default:
@@ -29,15 +34,15 @@ public class LoginController {
         }
     }
 
-    public static User RegisterUser(String login, String mdp, String  typeUser, int IDval) {
+    public static User RegisterUser(String login, String mdp, String  typeUser, int IDHospital) {
         User newUser = null;
         switch (typeUser) {
             case "Valideur":
-                newUser = new Valideur(-1);
+                newUser = new Valideur(-1,IDHospital);
                 newUser.RegisterUser(login, mdp);
                 break;
             case "Demandeur":
-                newUser = new Demandeur(-1, IDval);
+                newUser = new Demandeur(-1, IDHospital);
                 newUser.RegisterUser(login, mdp);
                 break;
             default: // Aideur
@@ -47,11 +52,17 @@ public class LoginController {
         return newUser;
     }
 
-    public static User ConnexionAvecLogin(String login, String mdp) throws SQLException{
+    public static User ConnexionAvecLogin(String login, String mdp) throws SQLException, ErrorBadParameters {
         DBInterface myDB = new DBInterface ();
         String queyID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
 
-        int ID = Integer.parseInt (myDB.ReadSingleThrow(queyID, "ID"));
+        int ID = -1;
+        try{
+             ID = Integer.parseInt (myDB.ReadSingleThrow(queyID, "ID"));
+
+        }catch(Exception E) {
+            throw new ErrorBadParameters("Ce n'ai pas les bon login / mot de pass");
+        }
 
 
         myDB.Close();
