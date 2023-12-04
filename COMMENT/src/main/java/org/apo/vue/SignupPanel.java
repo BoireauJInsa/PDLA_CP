@@ -129,7 +129,7 @@ public class SignupPanel extends JPanel {
 
                 role = (String) roleComboBox.getSelectedItem();
 
-                if (Objects.equals(role, "Demandeur")) {
+                if (!Objects.equals(role, "Aideur")) {
                     hospital=hospitalTextField.getText();
                 }else {
                     hospital="0";
