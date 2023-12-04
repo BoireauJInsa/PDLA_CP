@@ -113,6 +113,7 @@ public class DemandsPanel extends JPanel implements ConnexionControlleur.Observe
                         observer.SupprimerDemande(demandes);
                     }
                 }
+
                 newSetVisible();
             }
         });
@@ -183,8 +184,11 @@ public class DemandsPanel extends JPanel implements ConnexionControlleur.Observe
                 throw new RuntimeException("Mais qui êtes vous ?");
         }
 
-        demandsContainer.removeAll();
-        demandPanelList.clear();
+
+
+
+        demandPanelList = new ArrayList<>();
+
 
         if (type!="Admin"){
             HashMap<Integer, Demande> demandesMap;
