@@ -19,7 +19,7 @@ public class LoginController {
         switch (typeUser) {
             case "valideur":
                 myDB = new DBInterface ();
-                query = "SELECT * FROM Demandeur WHERE ID = %d ;".formatted(ID);
+                query = "SELECT * FROM Valideur WHERE ID = %d ;".formatted(ID);
                 IDString = myDB.ReadSingle(query, "ID_Hospital");
                 return new Valideur(ID, Integer.parseInt(IDString));
 

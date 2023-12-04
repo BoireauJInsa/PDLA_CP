@@ -13,7 +13,7 @@ public class Valideur extends User {
 
     @Override
     public HashMap<Integer, Demande> recuperer_demandes_abstract() {
-        return recuperer_demandes("SELECT * FROM Demande WHERE ID_Valideur = %s AND Statut = 'attente';".formatted(UIDHospital));
+        return recuperer_demandes("SELECT * FROM Demande WHERE ID_hospital = %s AND Statut = 'attente';".formatted(UIDHospital));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Valideur extends User {
         String queryID = "SELECT * FROM Personnes WHERE Login = %s AND Pass = %s;".formatted("'"+login+"'","'"+mdp+"'");
         this.UID = Integer.parseInt(myDB.ReadSingle(queryID, "ID"));
 
-        String queryUser = "INSERT INTO Valideur (ID, Statut) VALUES ( \"%s\", 'attente' );".formatted(UIDHospital);
+        String queryUser = "INSERT INTO Valideur (ID, Statut, ID_hospital) VALUES ( \"%s\", 'attente', \"%s\" );".formatted(super.getUID(),UIDHospital);
         myDB.Update(queryUser);
 
         myDB.Close();
